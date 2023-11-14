@@ -32,7 +32,13 @@ const Navbar = () => {
   const styles = StyleSheet.create({
     container: {
     //   flex: 2,
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
       backgroundColor: '#F2F2F2',
+      marginTop: '100px',
+      borderRightWidth: '2px',
+      
     //   alignItems: 'center',
     //   justifyContent: 'center',
     },

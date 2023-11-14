@@ -4,7 +4,7 @@ import { Navbar } from "./js/components/navbar"
 
 export default function App() {
   return (
-    <View>
+    <View style={{display:'flex', flexDirection:'column', justifyContent: 'center', height: '100%',}}>
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
       <Text>Ik ga even een lekker bakkie koffie zettendd!</Text>
@@ -12,12 +12,11 @@ export default function App() {
     </View>
       <Navbar/>
     </View>
-  );
+  );   
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
