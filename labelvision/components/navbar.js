@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Details } from '../pages/Details';
-import { Camera } from '../pages/Camera';
+import { CameraView } from '../pages/Camera';
 import { Filters } from '../pages/Filters';
 import { Loading } from '../pages/Loading';
 
@@ -32,7 +32,7 @@ const Navbar = () => {
         />
         <Tab.Screen
           name="Camera"
-          component={Camera}
+          component={CameraView}
           options={{
             tabBarLabel: 'Camera',
             tabBarIcon: ({ color, size }) => (
@@ -42,7 +42,7 @@ const Navbar = () => {
         />
         <Tab.Screen
           name="Filters"
-          component={Filters}
+          component={Loading}
           options={{
             tabBarLabel: 'Filters',
             tabBarIcon: ({ color, size }) => (
