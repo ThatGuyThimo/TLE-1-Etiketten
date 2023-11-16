@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/Mee_rotterdam_rijnmond.png",
-      "resizeMode": "stretch",
+      "resizeMode": "cover",
       "backgroundColor": "#F06B05"
     },
     "assetBundlePatterns": [
@@ -18,7 +18,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "labelvision needs access to your Camera."
-      }
+      },
+      "bundleIdentifier": "com.labelvision.ios"
     },
     "android": {
       "adaptiveIcon": {
@@ -41,6 +42,11 @@
           "cameraPermissionText": "labelvision needs access to your Camera."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "09cc2342-b2d9-489a-95fe-466dfc9e417b"
+      }
+    }
   }
 }
