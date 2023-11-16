@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Details } from '../pages/Details';
 import { Camera } from '../pages/Camera';
 import { Filters } from '../pages/Filters';
+import { Loading } from '../pages/Loading';
 
 const Tab = createBottomTabNavigator();
 

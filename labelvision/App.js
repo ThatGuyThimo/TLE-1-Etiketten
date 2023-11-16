@@ -1,5 +1,7 @@
+import { StrictMode } from 'react';
 import { Navbar } from "./components/navbar"
 import { NavigationContainer} from '@react-navigation/native';
+import { Loading } from "./pages/Loading";
 
 const MainTheme = {
   dark: false,
@@ -18,5 +20,8 @@ export default function App() {
     <NavigationContainer theme={MainTheme}>
       <Navbar/>
     </NavigationContainer>
+    // <StrictMode>
+    //   <Loading/>
+    // </StrictMode>
   );   
 }
