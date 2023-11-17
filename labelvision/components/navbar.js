@@ -42,7 +42,7 @@ const Navbar = () => {
         />
         <Tab.Screen
           name="Filters"
-          component={Loading}
+          component={Filters}
           options={{
             tabBarLabel: 'Filters',
             tabBarIcon: ({ color, size }) => (
