@@ -1,5 +1,10 @@
-import { Navbar } from "./components/navbar"
+import { StrictMode } from 'react';
+import { Navbar } from "./components/Navbar"
 import { NavigationContainer} from '@react-navigation/native';
+import { Loading } from "./pages/Loading";
+import { Splashscreen } from './components/Splashscreen';
+
+import { Text, View, Animated, StyleSheet, Image, Easing  } from 'react-native';
 
 const MainTheme = {
   dark: false,
@@ -16,6 +21,7 @@ const MainTheme = {
 export default function App() {
   return (
     <NavigationContainer theme={MainTheme}>
+      <Splashscreen/>
       <Navbar/>
     </NavigationContainer>
   );   
