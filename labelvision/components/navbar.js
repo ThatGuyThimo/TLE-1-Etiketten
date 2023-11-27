@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Details } from '../pages/Details';
+// import { CameraView } from '../pages/Camera';
 import { CameraView } from '../pages/Camera';
 import { Filters } from '../pages/Filters';
 import { Loading } from '../pages/Loading';
