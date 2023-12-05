@@ -21,10 +21,17 @@ function CameraView() {
   }, []);
 
   // What happens when we scan the bar code
-  const  handleBarCodeScanned = ({type, data}) => {
+  const  handleBarCodeScanned = ({type, barcoderesult}) => {
     setScanned(true);
-    setText(data);
-    console.log('Type: ' + type + '\nData: ' + data);
+    setText(barcoderesult);
+    console.log('Type: ' + type + '\nData: ' + barcoderesult);
+    useEffect(() => {
+      fetch(url + barcoderesult)
+          .then((resp) => resp.json())
+          .then((json) => setData(json))
+          .catch((error) => console.error(error))
+          .finally(() => setLoading(false));
+    }, []);
   }
 
   // Check permissions and return the screens
@@ -46,6 +53,8 @@ function CameraView() {
     )
   }
 
+  const url = "https://world.openfoodfacts.net/api/v2/product/"
+
   // Return the View
   return (
     <View style={styles.container}>
@@ -55,6 +64,21 @@ function CameraView() {
             style={{ height: 600, width: 600 }} />
       </View>
       <Text style={styles.maintext}>{text}</Text>
+
+      <View style={styles.container}>
+      {loading ? (
+          <Text>Loading...</Text>
+      ) : (
+          data.map((post) => {
+            return (
+                <View>
+                  <Text style={styles.title}>{post.title}</Text>
+                  <Text>{post.body}</Text>
+                </View>
+            );
+          })
+      )}
+    </View>;
 
       {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato'/>}
     </View>
