@@ -21,17 +21,18 @@ function CameraView() {
   }, []);
 
   // What happens when we scan the bar code
-  const  handleBarCodeScanned = ({type, barcoderesult}) => {
+  const  handleBarCodeScanned = ({type, data}) => {
     setScanned(true);
-    setText(barcoderesult);
-    console.log('Type: ' + type + '\nData: ' + barcoderesult);
-    useEffect(() => {
-      fetch(url + barcoderesult)
-          .then((resp) => resp.json())
-          .then((json) => setData(json))
-          .catch((error) => console.error(error))
-          .finally(() => setLoading(false));
-    }, []);
+    setText(data);
+    console.log('Type: ' + type + '\nData: ' + data);
+    console.log(url + data);
+    // useEffect(() => {
+    //   fetch(url + data)
+    //       .then((resp) => resp.json())
+    //       .then((json) => setData(json))
+    //       .catch((error) => console.error(error))
+    //       .finally(() => setLoading(false));
+    // }, []);
   }
 
   // Check permissions and return the screens
@@ -65,7 +66,7 @@ function CameraView() {
       </View>
       <Text style={styles.maintext}>{text}</Text>
 
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
       {loading ? (
           <Text>Loading...</Text>
       ) : (
@@ -78,7 +79,7 @@ function CameraView() {
             );
           })
       )}
-    </View>;
+    </View>; */}
 
       {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato'/>}
     </View>
