@@ -25,6 +25,14 @@ function CameraView() {
     setScanned(true);
     setText(data);
     console.log('Type: ' + type + '\nData: ' + data);
+    console.log(url + data);
+    // useEffect(() => {
+    //   fetch(url + data)
+    //       .then((resp) => resp.json())
+    //       .then((json) => setData(json))
+    //       .catch((error) => console.error(error))
+    //       .finally(() => setLoading(false));
+    // }, []);
   }
 
   // Check permissions and return the screens
@@ -46,6 +54,8 @@ function CameraView() {
     )
   }
 
+  const url = "https://world.openfoodfacts.net/api/v2/product/"
+
   // Return the View
   return (
     <Pressable style={styles.container}>
@@ -61,6 +71,20 @@ function CameraView() {
       </Pressable>
         }
     </Pressable>
+      {/* <View style={styles.container}>
+      {loading ? (
+          <Text>Loading...</Text>
+      ) : (
+          data.map((post) => {
+            return (
+                <View>
+                  <Text style={styles.title}>{post.title}</Text>
+                  <Text>{post.body}</Text>
+                </View>
+            );
+          })
+      )}
+    </View>; */}
   );
 }
 
