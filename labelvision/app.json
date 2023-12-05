@@ -45,8 +45,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "09cc2342-b2d9-489a-95fe-466dfc9e417b"
+        "projectId": "79a7d04c-eaea-4d41-b745-5f7e297e7f22"
       }
-    }
+    },
+    "owner": "calvinhofman"
   }
 }

@@ -65,7 +65,7 @@ function CameraView() {
       </View>
       <Text style={styles.maintext}>{text}</Text>
 
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
       {loading ? (
           <Text>Loading...</Text>
       ) : (
@@ -78,7 +78,7 @@ function CameraView() {
             );
           })
       )}
-    </View>;
+    </View>; */}
 
       {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato'/>}
     </View>
