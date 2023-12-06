@@ -2,8 +2,9 @@ import React, { useState, useEffect} from "react";
 import {StyleSheet, Text, View, Button, Pressable} from 'react-native';
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Loading } from "./Loading";
+import axios from 'axios';
 
-function CameraView() {
+function CameraView(Dataclass) {
   const [hasPermission, setHasPermission] = useState(null);
   const  [scanned, setScanned] = useState(false);
   const  [text, setText] = useState('Not yet scanned');
@@ -26,13 +27,12 @@ function CameraView() {
     setText(data);
     console.log('Type: ' + type + '\nData: ' + data);
     console.log(url + data);
-    // useEffect(() => {
-    //   fetch(url + data)
-    //       .then((resp) => resp.json())
-    //       .then((json) => setData(json))
-    //       .catch((error) => console.error(error))
-    //       .finally(() => setLoading(false));
-    // }, []);
+    axios.get(`${url}${data}`).then((response) => {
+      useEffect(() => {
+        Dataclass.setAPIData(response.data)
+      })
+      console.log(response.data);
+    });
   }
 
   // Check permissions and return the screens
@@ -71,20 +71,6 @@ function CameraView() {
       </Pressable>
         }
     </Pressable>
-      {/* <View style={styles.container}>
-      {loading ? (
-          <Text>Loading...</Text>
-      ) : (
-          data.map((post) => {
-            return (
-                <View>
-                  <Text style={styles.title}>{post.title}</Text>
-                  <Text>{post.body}</Text>
-                </View>
-            );
-          })
-      )}
-    </View>; */}
   );
 }
 

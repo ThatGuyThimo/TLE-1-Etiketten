@@ -13,6 +13,7 @@
     "@lottiefiles/react-lottie-player": "^3.5.3",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
+    "axios": "^1.6.2",
     "expo": "~49.0.15",
     "expo-barcode-scanner": "^12.7.0",
     "expo-splash-screen": "~0.20.5",
