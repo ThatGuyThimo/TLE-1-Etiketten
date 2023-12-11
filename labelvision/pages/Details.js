@@ -89,7 +89,7 @@ function Details() {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "gray",
+    backgroundColor: '#0A3D4C',
     borderRadius: 25,
     paddingVertical: 15,
     paddingHorizontal: 5,
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
+    fontWeight: "bold",
     textAlign: "center",
   },
   modalContainer: {

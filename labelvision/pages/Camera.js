@@ -71,20 +71,7 @@ function CameraView() {
       </Pressable>
         }
     </Pressable>
-      {/* <View style={styles.container}>
-      {loading ? (
-          <Text>Loading...</Text>
-      ) : (
-          data.map((post) => {
-            return (
-                <View>
-                  <Text style={styles.title}>{post.title}</Text>
-                  <Text>{post.body}</Text>
-                </View>
-            );
-          })
-      )}
-    </View>; */}
+
   );
 }
 
