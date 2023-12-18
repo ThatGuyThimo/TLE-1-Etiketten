@@ -1,13 +1,14 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useContext} from "react";
 import {StyleSheet, Text, View, Button, Pressable} from 'react-native';
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Loading } from "./Loading";
-import axios from 'axios';
+import { stateManager } from "../components/Statemanager";
 
-function CameraView(Dataclass) {
+function CameraView() {
   const [hasPermission, setHasPermission] = useState(null);
   const  [scanned, setScanned] = useState(false);
   const  [text, setText] = useState('Not yet scanned');
+  const{ApiData, setApiData} = useContext(stateManager);
 
   const askForCameraPermission = () => {
     (async () => {
@@ -24,12 +25,12 @@ function CameraView(Dataclass) {
   // What happens when we scan the bar code
   const  handleBarCodeScanned = ({type, data}) => {
     setScanned(true);
-    setText(data);
+    setText(data); 
     console.log('Type: ' + type + '\nData: ' + data);
     console.log(url + data);
     axios.get(`${url}${data}`).then((response) => {
       useEffect(() => {
-        Dataclass.setAPIData(response.data)
+        setApiData(response.data)
       })
       console.log(response.data);
     });

@@ -3,6 +3,7 @@ import { Navbar } from "./components/Navbar"
 import { NavigationContainer} from '@react-navigation/native';
 import { Loading } from "./pages/Loading";
 import { Splashscreen } from './components/Splashscreen';
+import { stateManager } from './components/Statemanager';
 
 import { Text, View, Animated, StyleSheet, Image, Easing  } from 'react-native';
 
@@ -19,10 +20,14 @@ const MainTheme = {
 };
 
 export default function App() {
+  const [ApiData, setApiData] = React.useState('Default State');
+
   return (
     <NavigationContainer theme={MainTheme}>
-      <Splashscreen/>
-      <Navbar/>
+      <stateManager.Provider value={{ ApiData, setApiData}}>
+        <Splashscreen/>
+        <Navbar/>
+      </stateManager.Provider>
     </NavigationContainer>
   );   
 }
