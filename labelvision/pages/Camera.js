@@ -1,12 +1,14 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useContext} from "react";
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Loading } from "./Loading";
+import { stateManager } from "../components/Statemanager";
 
 function CameraView() {
   const [hasPermission, setHasPermission] = useState(null);
   const  [scanned, setScanned] = useState(false);
   const  [text, setText] = useState('Not yet scanned');
+  const{ApiData, setApiData} = useContext(stateManager);
 
   const askForCameraPermission = () => {
     (async () => {
@@ -24,6 +26,7 @@ function CameraView() {
   const  handleBarCodeScanned = ({type, data}) => {
     setScanned(true);
     setText(data);
+    setApiData(data)  
     console.log('Type: ' + type + '\nData: ' + data);
   }
 
