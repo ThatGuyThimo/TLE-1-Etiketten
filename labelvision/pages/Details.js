@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Text, View, TouchableOpacity, Image, Modal, StyleSheet } from "react-native";
+import { stateManager } from "../components/Statemanager";
 
 function Details() {
   const [modalVisible, setModalVisible] = useState(false);
+  const { ApiData, setApiData } = useContext(stateManager);
+
+  console.log(ApiData)
 
   const handleModalOpen = () => {
     setModalVisible(true);

@@ -28,7 +28,7 @@ const Navbar = () => {
       >
         <Tab.Screen
           name="Details"
-          component={() => <Details {...DataClassInstance}/>}
+          component={Details}
           options={{
             tabBarLabel: 'Details',
             tabBarIcon: ({ color, size }) => (
@@ -38,7 +38,7 @@ const Navbar = () => {
         />
         <Tab.Screen
           name="Camera"
-          component={() => <CameraView {...DataClassInstance}/>}
+          component={CameraView}
           options={{
             tabBarLabel: 'Camera',
             tabBarIcon: ({ color, size }) => (

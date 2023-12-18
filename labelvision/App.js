@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+import React, { StrictMode } from 'react';
 import { Navbar } from "./components/Navbar"
 import { NavigationContainer} from '@react-navigation/native';
 import { Loading } from "./pages/Loading";
