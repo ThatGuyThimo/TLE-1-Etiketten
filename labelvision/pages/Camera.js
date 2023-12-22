@@ -1,12 +1,15 @@
-import React, { useState, useEffect} from "react";
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useState, useEffect, useContext} from "react";
+import {StyleSheet, Text, View, Button, Pressable} from 'react-native';
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Loading } from "./Loading";
+import { stateManager } from "../components/Statemanager";
+import axios from "axios";
 
 function CameraView() {
   const [hasPermission, setHasPermission] = useState(null);
   const  [scanned, setScanned] = useState(false);
   const  [text, setText] = useState('Not yet scanned');
+  const { ApiData, setApiData } = useContext(stateManager);
 
   const askForCameraPermission = () => {
     (async () => {
@@ -23,8 +26,22 @@ function CameraView() {
   // What happens when we scan the bar code
   const  handleBarCodeScanned = ({type, data}) => {
     setScanned(true);
-    setText(data);
+    setText(data); 
     console.log('Type: ' + type + '\nData: ' + data);
+    console.log(url + data);
+    axios.get(`${url}${data}`, {'User-Agent': "LabelVision 0.0.1 thimodehaan@gmail.com"}).then((response) => {
+      useEffect(() => {
+        setApiData(response.data)
+      }).cat
+      console.log(response.data);
+    }).catch((error) => {
+      if(error.response.status === 502) {
+        // server is down
+        console.log(error);
+        setApiData("Server is down :(")
+        // do something here to handle the server being down 
+      }
+    });
   }
 
   // Check permissions and return the screens
@@ -46,9 +63,11 @@ function CameraView() {
     )
   }
 
+  const url = "https://world.openfoodfacts.net/api/v2/product/"
+
   // Return the View
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container}>
       <View style={styles.barcodebox}>
         <BarCodeScanner
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
@@ -56,8 +75,11 @@ function CameraView() {
       </View>
       <Text style={styles.maintext}>{text}</Text>
 
-      {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato'/>}
-    </View>
+      {scanned && <Pressable style={styles.button1} onPress={() => setScanned(false)} color='#ffffff'>
+        <Text style={styles.text}>Scan Again?</Text>
+      </Pressable>
+        }
+    </Pressable>
   );
 }
 
@@ -83,6 +105,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     margin: 20,
   },
+
+  button1: {
+    width: 131,
+    height: 43,
+    backgroundColor: '#0A3D4C',
+    borderRadius: 20,
+  },
+
+  text: {
+    display: "flex",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: '#ffffff',
+    textAlign: "center",
+    alignItems: "center",
+    marginTop: 9
+  }
 });
 
 export {CameraView};
