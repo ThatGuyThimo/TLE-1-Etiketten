@@ -35,7 +35,7 @@ function CameraView() {
       }).cat
       console.log(response.data);
     }).catch((error) => {
-      if(error.response.status === 502) {
+      if(error.response?.status === 502) {
         // server is down
         console.log(error);
         setApiData("Server is down :(")
