@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext} from "react";
 import {StyleSheet, Text, View, Button, Pressable} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Loading } from "./Loading";
 import { stateManager } from "../components/Statemanager";
@@ -10,6 +11,7 @@ function CameraView() {
   const  [scanned, setScanned] = useState(false);
   const  [text, setText] = useState('Not yet scanned');
   const { ApiData, setApiData } = useContext(stateManager);
+  const navigation = useNavigation();
 
   const askForCameraPermission = () => {
     (async () => {
@@ -27,15 +29,14 @@ function CameraView() {
   const  handleBarCodeScanned = ({type, data}) => {
     setScanned(true);
     setText(data); 
-    console.log('Type: ' + type + '\nData: ' + data);
-    console.log(url + data);
+    // console.log('Type: ' + type + '\nData: ' + data);
+    // console.log(url + data);
     axios.get(`${url}${data}`, {'User-Agent': "LabelVision 0.0.1 thimodehaan@gmail.com"}).then((response) => {
-      useEffect(() => {
-        setApiData(response.data)
-      }).cat
-      console.log(response.data);
+      setApiData(response.data)
+      navigation.navigate('Details');
+      // console.log(response.data)
     }).catch((error) => {
-      if(error.response.status === 502) {
+      if(error.response?.status === 502) {
         // server is down
         console.log(error);
         setApiData("Server is down :(")
