@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Switch, TextInput } from 'react-native';
+import { Text, View, Switch, TextInput, Image } from 'react-native';
 
 function Filters() {
     const [searchText, setSearchText] = useState('');
@@ -25,10 +25,10 @@ function Filters() {
     };
 
     const switches = [
-        { label: 'Halal', value: HalalEnabled, toggle: toggleHalalSwitch },
-        { label: 'Vegetariër', value: VegetarierEnabled, toggle: toggleVegetarierSwitch },
-        { label: 'Noten Allergie', value: NotenAllergieEnabled, toggle: toggleNotenAllergieSwitch },
-        { label: 'Lactose Intolerantie', value: LactoseIntolerantieEnabled, toggle: toggleLactoseIntolerantieSwitch },
+        { label: 'Halal', value: HalalEnabled, toggle: toggleHalalSwitch, image: require('../assets/halal-sign.png') },
+        { label: 'Vegetariër', value: VegetarierEnabled, toggle: toggleVegetarierSwitch, image: require('../assets/vegetarian.png') },
+        { label: 'Noten Allergie', value: NotenAllergieEnabled, toggle: toggleNotenAllergieSwitch, image: require('../assets/peanut-free.png') },
+        { label: 'Lactose Intolerantie', value: LactoseIntolerantieEnabled, toggle: toggleLactoseIntolerantieSwitch, image: require('../assets/lactose.png') },
     ];
 
     const filteredSwitches = switches.filter((switchItem) =>
@@ -36,28 +36,79 @@ function Filters() {
     );
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={styles.container}>
             <TextInput
-                style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginTop: 20, padding: 10 }}
+                style={styles.searchInput}
                 onChangeText={(text) => setSearchText(text)}
                 value={searchText}
                 placeholder="Search..."
             />
             {filteredSwitches.map((switchItem) => (
-                <View key={switchItem.label}>
-                    <Text>{switchItem.label}</Text>
-                    <Switch
-                        trackColor={{ false: '#767577', true: '#81b0ff' }}
-                        thumbColor={switchItem.value ? '#f5dd4b' : '#f4f3f4'}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={switchItem.toggle}
-                        value={switchItem.value}
-
-                    />
+                <View key={switchItem.label} style={styles.switchContainer}>
+                    {switchItem.image && (
+                        <Image
+                            source={switchItem.image}
+                            style={styles.imageStyle}
+                        />
+                    )}
+                    <Text style={styles.filterText}>{switchItem.label}</Text>
+                    <View style={styles.switchButtonContainer}>
+                        <Switch
+                            trackColor={{ false: '#E1E1E1', true: '#F06B05' }}
+                            thumbColor={switchItem.value ? '#0A3D4C' : '#0A3D4C'}
+                            ios_backgroundColor="#E1E1E1"
+                            style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
+                            onValueChange={switchItem.toggle}
+                            value={switchItem.value}
+                        />
+                    </View>
                 </View>
             ))}
         </View>
     );
 }
+
+const styles = {
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+    },
+    searchInput: {
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1,
+        marginTop: 20,
+        padding: 10,
+        width: 200,
+        borderRadius: 20,
+    },
+    switchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '80%',
+        height: 100,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 30,
+        padding: 30,
+        marginTop: 10,
+    },
+    switchButtonContainer: {
+        flex: 1,
+        alignItems: 'flex-end',
+    },
+    imageStyle: {
+        width: 60,
+        height: 60,
+        marginRight: 10,
+    },
+    filterText: {
+        color: '#F06B05',
+        fontWeight: 'bold',
+        fontSize: 20,
+    },
+};
 
 export { Filters };
