@@ -30,10 +30,8 @@ function CameraView() {
     console.log('Type: ' + type + '\nData: ' + data);
     console.log(url + data);
     axios.get(`${url}${data}`, {'User-Agent': "LabelVision 0.0.1 thimodehaan@gmail.com"}).then((response) => {
-      useEffect(() => {
-        setApiData(response.data)
-      }).cat
-      console.log(response.data);
+      setApiData(response.data)
+      // console.log(response.data)
     }).catch((error) => {
       if(error.response?.status === 502) {
         // server is down
