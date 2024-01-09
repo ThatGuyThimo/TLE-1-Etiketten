@@ -1,12 +1,29 @@
 import React, { useState, useContext } from "react";
-import { Text, View, TouchableOpacity, Image, Modal, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Modal,
+  StyleSheet,
+} from "react-native";
 import { stateManager } from "../components/Statemanager";
 
 function Details() {
   const [modalVisible, setModalVisible] = useState(false);
   const { ApiData, setApiData } = useContext(stateManager);
-
-  console.log(ApiData)
+  let serving_size = 0;
+  let image =
+    "https://imgproxy-retcat.assets.schwarz/EzycSqdC8yFC4DaScuJAzEXdO1ji3wa72scHGvAwZQo/sm:1/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvbmwvMS9EODJFNDc3RkZFQjhFQ0ZGRjg0OTk4RjN/EMDg2MDVFMENCODZFNDk1Njk3Q0RENkIxOEUzRDgwQkZDQkRENjJBLmpwZw.jpg";
+  let ingredienten = "";
+  let nutri_score = "";
+  if (!ApiData.product.image_front_url) {
+    image = ApiData.product.image_front_url;
+    serving_size = ApiData.product.serving_size;
+    nutri_score = ApiData.product.nutriscore_grade;
+    ingredienten = ApiData.product.ingredients_text_nl;
+    console.log(ApiData.product.ingredients_text_nl);
+  }
 
   const handleModalOpen = () => {
     setModalVisible(true);
@@ -21,7 +38,7 @@ function Details() {
       <Image
         style={{ width: 100, height: 250, marginBottom: 50 }}
         source={{
-          uri: "https://www.plus.nl/INTERSHOP/static/WFS/PLUS-Site/-/PLUS/nl_NL/product/L/155005.png",
+          uri: image,
         }}
       ></Image>
       <View
@@ -40,7 +57,7 @@ function Details() {
             source={require("../assets/detail1.png")}
           ></Image>
           <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>
-            Inhoud: 500ml
+            Inhoud: {serving_size}
           </Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -49,24 +66,12 @@ function Details() {
             source={require("../assets/detail2.png")}
           ></Image>
           <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>
-            Nutri-Score: B
-          </Text>
-        </View>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Image
-            style={{ width: 50, height: 50 }}
-            source={require("../assets/detail3.png")}
-          ></Image>
-          <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>
-            Prijs: €4.49
+            Nutri-Score: {nutri_score}
           </Text>
         </View>
 
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleModalOpen}
-          >
+          <TouchableOpacity style={styles.button} onPress={handleModalOpen}>
             <Text style={styles.buttonText}>Informatie</Text>
           </TouchableOpacity>
         </View>
@@ -80,8 +85,11 @@ function Details() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cumque, exercitationem.</Text>
-            <TouchableOpacity style={styles.closeButton} onPress={handleModalClose}>
+            <Text style={styles.modalText}>ingredienten: {ingredienten}</Text>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={handleModalClose}
+            >
               <Text style={styles.closeButtonText}>Sluiten</Text>
             </TouchableOpacity>
           </View>
@@ -93,7 +101,7 @@ function Details() {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#0A3D4C',
+    backgroundColor: "#0A3D4C",
     borderRadius: 25,
     paddingVertical: 15,
     paddingHorizontal: 5,
