@@ -17,7 +17,7 @@ function Details() {
     "https://imgproxy-retcat.assets.schwarz/EzycSqdC8yFC4DaScuJAzEXdO1ji3wa72scHGvAwZQo/sm:1/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvbmwvMS9EODJFNDc3RkZFQjhFQ0ZGRjg0OTk4RjN/EMDg2MDVFMENCODZFNDk1Njk3Q0RENkIxOEUzRDgwQkZDQkRENjJBLmpwZw.jpg";
   let ingredienten = "";
   let nutri_score = "";
-  if (!ApiData.product.image_front_url) {
+  if (ApiData.product?.image_front_url != undefined) {
     image = ApiData.product.image_front_url;
     serving_size = ApiData.product.serving_size;
     nutri_score = ApiData.product.nutriscore_grade;
