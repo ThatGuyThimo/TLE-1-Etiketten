@@ -12,17 +12,39 @@ import { stateManager } from "../components/Statemanager";
 function Details() {
   const [modalVisible, setModalVisible] = useState(false);
   const { ApiData, setApiData } = useContext(stateManager);
+  const nutri = []
+  nutri['a'] = require(`../assets/nutri/nutri-a.png`)
+  nutri['b'] = require(`../assets/nutri/nutri-b.png`)
+  nutri['c'] = require(`../assets/nutri/nutri-c.png`)
+  nutri['d'] = require(`../assets/nutri/nutri-d.png`)
+  nutri['e'] = require(`../assets/nutri/nutri-e.png`)
   let serving_size = 0;
   let image =
     "https://imgproxy-retcat.assets.schwarz/EzycSqdC8yFC4DaScuJAzEXdO1ji3wa72scHGvAwZQo/sm:1/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvbmwvMS9EODJFNDc3RkZFQjhFQ0ZGRjg0OTk4RjN/EMDg2MDVFMENCODZFNDk1Njk3Q0RENkIxOEUzRDgwQkZDQkRENjJBLmpwZw.jpg";
   let ingredienten = "";
-  let nutri_score = "";
+  let nutri_score = "a";
   if (ApiData.product?.image_front_url != undefined) {
     image = ApiData.product.image_front_url;
-    serving_size = ApiData.product.serving_size;
-    nutri_score = ApiData.product.nutriscore_grade;
-    ingredienten = ApiData.product.ingredients_text_nl;
-    console.log(ApiData.product.ingredients_text_nl);
+    if(ApiData.product?.serving_size != undefined) {
+      serving_size = ApiData.product.serving_size ;
+    } else if (ApiData.product?.quantity != undefined) {
+      serving_size = ApiData.product.quantity
+    } else {
+      serving_size = "niet bekend";
+    }
+    if (ApiData.product?.nutriscore_grade != undefined) {
+      nutri_score = ApiData.product.nutriscore_grade ;
+    } else {
+      nutri_score = "niet bekend";
+    }
+    if(ApiData.product?.ingredients_text_nl != undefined) {
+      ingredienten = ApiData.product.ingredients_text_nl;
+    } else if (ApiData.product?.ingredients_text_en != undefined) {
+      ingredienten = ApiData.product.ingredients_text_en;
+    } else {
+      ingredienten = "niet bekend";
+    }
+
   }
 
   const handleModalOpen = () => {
@@ -36,7 +58,7 @@ function Details() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Image
-        style={{ width: 100, height: 250, marginBottom: 50 }}
+        style={{ width: 400, height: 250, marginBottom: 50, resizeMode: "contain" }}
         source={{
           uri: image,
         }}
@@ -65,9 +87,14 @@ function Details() {
             style={{ width: 50, height: 50 }}
             source={require("../assets/detail2.png")}
           ></Image>
-          <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>
-            Nutri-Score: {nutri_score}
-          </Text>
+          {nutri_score == "niet bekend" ? <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>Nutri-Score: {nutri_score}</Text> : null}
+
+          <Image 
+          style={{ width: 120, height: 60 }}
+          source={nutri[nutri_score]}>
+            {/* Nutri-Score: {nutri_score} */}
+          </Image>
+
         </View>
 
         <View style={{ justifyContent: "center", alignItems: "center" }}>
