@@ -46,7 +46,7 @@ const Navbar = () => {
             ),
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Filters"
           component={Filters}
           options={{
@@ -55,7 +55,7 @@ const Navbar = () => {
               <MaterialCommunityIcons name="cog" color={color} size={size} />
             ),
           }}
-        />
+        /> */}
       </Tab.Navigator>
     );
   };

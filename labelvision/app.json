@@ -4,7 +4,7 @@
     "slug": "labelvision",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Labelvisionicon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/Mee_rotterdam_rijnmond.png",
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets//Mee_rotterdam_rijnmond.png",
+        "foregroundImage": "./assets/Labelvisionicon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [

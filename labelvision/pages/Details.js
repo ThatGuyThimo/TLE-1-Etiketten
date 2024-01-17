@@ -18,11 +18,12 @@ function Details() {
   nutri['c'] = require(`../assets/nutri/nutri-c.png`)
   nutri['d'] = require(`../assets/nutri/nutri-d.png`)
   nutri['e'] = require(`../assets/nutri/nutri-e.png`)
-  let serving_size = 0;
+  let serving_size = "1L";
   let image =
     "https://imgproxy-retcat.assets.schwarz/EzycSqdC8yFC4DaScuJAzEXdO1ji3wa72scHGvAwZQo/sm:1/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvbmwvMS9EODJFNDc3RkZFQjhFQ0ZGRjg0OTk4RjN/EMDg2MDVFMENCODZFNDk1Njk3Q0RENkIxOEUzRDgwQkZDQkRENjJBLmpwZw.jpg";
   let ingredienten = "";
   let nutri_score = "a";
+  let product_name = "niet bekend";
   if (ApiData.product?.image_front_url != undefined) {
     image = ApiData.product.image_front_url;
     if(ApiData.product?.serving_size != undefined) {
@@ -31,6 +32,11 @@ function Details() {
       serving_size = ApiData.product.quantity
     } else {
       serving_size = "niet bekend";
+    }
+    if(ApiData.product?.name != undefined) {
+      product_name = ApiData.product.serving_size ;
+    } else {
+      product_name = "niet bekend";
     }
     if (ApiData.product?.nutriscore_grade != undefined) {
       nutri_score = ApiData.product.nutriscore_grade ;
@@ -57,6 +63,9 @@ function Details() {
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20, marginBottom: 20 }}>
+          {product_name}
+        </Text>
       <Image
         style={{ width: 400, height: 250, marginBottom: 50, resizeMode: "contain" }}
         source={{

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext, useCallback} from "react";
 import {StyleSheet, Text, View, Button, Pressable} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Loading } from "./Loading";
 import { stateManager } from "../components/Statemanager";
@@ -12,6 +12,19 @@ function CameraView() {
   const  [text, setText] = useState('Not yet scanned');
   const { ApiData, setApiData } = useContext(stateManager);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  let key = 0
+
+  useFocusEffect(
+    useCallback(() => {
+      // Your code here. This will run every time the screen comes into focus.
+      key = Math.random(); // increment key to force re-render
+      // console.log(key + " ran")
+      // return () => {
+      //   // Optional cleanup function. This will run when the screen goes out of focus.
+      // };
+    }, [])
+  );
 
   const askForCameraPermission = () => {
     (async () => {
@@ -30,7 +43,7 @@ function CameraView() {
     setScanned(true);
     setText(data); 
     // console.log('Type: ' + type + '\nData: ' + data);
-    // console.log(url + data);
+    console.log(url + data);
     axios.get(`${url}${data}`, {'User-Agent': "LabelVision 0.0.1 thimodehaan@gmail.com"}).then((response) => {
       setApiData(response.data)
       navigation.navigate('Details');
@@ -70,9 +83,10 @@ function CameraView() {
   return (
     <Pressable style={styles.container}>
       <View style={styles.barcodebox}>
-        <BarCodeScanner
+        {isFocused && <BarCodeScanner
+            key={key}
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={{ height: 600, width: 600 }} />
+            style={{ height: 600, width: 600 }} />}
       </View>
       <Text style={styles.maintext}>{text}</Text>
 
