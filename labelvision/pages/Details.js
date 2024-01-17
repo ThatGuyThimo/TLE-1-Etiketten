@@ -1,12 +1,68 @@
 import React, { useState, useContext } from "react";
-import { Text, View, TouchableOpacity, Image, Modal, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Modal,
+  StyleSheet,
+} from "react-native";
 import { stateManager } from "../components/Statemanager";
 
 function Details() {
   const [modalVisible, setModalVisible] = useState(false);
   const { ApiData, setApiData } = useContext(stateManager);
+  const nutri = []
+  nutri['a'] = require(`../assets/nutri/nutri-a.png`)
+  nutri['b'] = require(`../assets/nutri/nutri-b.png`)
+  nutri['c'] = require(`../assets/nutri/nutri-c.png`)
+  nutri['d'] = require(`../assets/nutri/nutri-d.png`)
+  nutri['e'] = require(`../assets/nutri/nutri-e.png`)
+  let serving_size = "0";
+  let image =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+    // "https://imgproxy-retcat.assets.schwarz/EzycSqdC8yFC4DaScuJAzEXdO1ji3wa72scHGvAwZQo/sm:1/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvbmwvMS9EODJFNDc3RkZFQjhFQ0ZGRjg0OTk4RjN/EMDg2MDVFMENCODZFNDk1Njk3Q0RENkIxOEUzRDgwQkZDQkRENjJBLmpwZw.jpg";
+  let ingredienten = "";
+  let nutri_score = "a";
+  let product_name = "";
+  if (ApiData == "product niet gevonden") {
+    product_name = "product niet gevonden";
+    nutri_score = "niet bekend";
+    serving_size = "niet bekend";
+    ingredienten = "niet bekend";
+  } else if (ApiData == "Server is down") {
+    product_name = "Server is down";
+    nutri_score = "niet bekend";
+    serving_size = "niet bekend";
+    ingredienten = "niet bekend";
+  } else if (ApiData.product?.image_front_url != undefined) {
+    image = ApiData.product.image_front_url;
+    if(ApiData.product?.serving_size != undefined) {
+      serving_size = ApiData.product.serving_size ;
+    } else if (ApiData.product?.quantity != undefined) {
+      serving_size = ApiData.product.quantity
+    } else {
+      serving_size = "niet bekend";
+    }
+    if(ApiData.product?.product_name != undefined) {
+      product_name = ApiData.product.product_name ;
+    } else {
+      product_name = "niet bekend";
+    }
+    if (ApiData.product?.nutriscore_grade != undefined) {
+      nutri_score = ApiData.product.nutriscore_grade ;
+    } else {
+      nutri_score = "niet bekend";
+    }
+    if(ApiData.product?.ingredients_text_nl != undefined) {
+      ingredienten = ApiData.product.ingredients_text_nl;
+    } else if (ApiData.product?.ingredients_text_en != undefined) {
+      ingredienten = ApiData.product.ingredients_text_en;
+    } else {
+      ingredienten = "niet bekend";
+    }
 
-  console.log(ApiData)
+  }
 
   const handleModalOpen = () => {
     setModalVisible(true);
@@ -18,10 +74,13 @@ function Details() {
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20, marginBottom: 20 }}>
+          {product_name}
+        </Text>
       <Image
-        style={{ width: 100, height: 250, marginBottom: 50 }}
+        style={{ width: 400, height: 250, marginBottom: 50, resizeMode: "contain" }}
         source={{
-          uri: "https://www.plus.nl/INTERSHOP/static/WFS/PLUS-Site/-/PLUS/nl_NL/product/L/155005.png",
+          uri: image,
         }}
       ></Image>
       <View
@@ -40,7 +99,7 @@ function Details() {
             source={require("../assets/detail1.png")}
           ></Image>
           <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>
-            Inhoud: 500ml
+            Inhoud: {serving_size}
           </Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -48,25 +107,18 @@ function Details() {
             style={{ width: 50, height: 50 }}
             source={require("../assets/detail2.png")}
           ></Image>
-          <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>
-            Nutri-Score: B
-          </Text>
-        </View>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Image
-            style={{ width: 50, height: 50 }}
-            source={require("../assets/detail3.png")}
-          ></Image>
-          <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>
-            Prijs: €4.49
-          </Text>
+          {nutri_score == "niet bekend" ? <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>nutri score: {nutri_score}</Text> : null}
+
+          <Image 
+          style={{ width: 120, height: 60, marginBottom: 10 }}
+          source={nutri[nutri_score]}>
+            {/* Nutri-Score: {nutri_score} */}
+          </Image>
+
         </View>
 
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleModalOpen}
-          >
+          <TouchableOpacity style={styles.button} onPress={handleModalOpen}>
             <Text style={styles.buttonText}>Informatie</Text>
           </TouchableOpacity>
         </View>
@@ -80,8 +132,11 @@ function Details() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cumque, exercitationem.</Text>
-            <TouchableOpacity style={styles.closeButton} onPress={handleModalClose}>
+            <Text style={styles.modalText}>ingredienten: {ingredienten}</Text>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={handleModalClose}
+            >
               <Text style={styles.closeButtonText}>Sluiten</Text>
             </TouchableOpacity>
           </View>
@@ -93,7 +148,7 @@ function Details() {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#0A3D4C',
+    backgroundColor: "#0A3D4C",
     borderRadius: 25,
     paddingVertical: 15,
     paddingHorizontal: 5,

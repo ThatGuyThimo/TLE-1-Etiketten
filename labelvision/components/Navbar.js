@@ -17,7 +17,7 @@ const Tab = createBottomTabNavigator();
 const Navbar = () => {
     return (
       <Tab.Navigator
-        initialRouteName="Details"
+        initialRouteName="Overzicht"
         screenOptions={{
           tabBarHideOnKeyboard: false,
           tabBarActiveTintColor: '#FFFFFF',
@@ -27,10 +27,10 @@ const Navbar = () => {
         }}
       >
         <Tab.Screen
-          name="Details"
+          name="Overzicht"
           component={Details}
           options={{
-            tabBarLabel: 'Details',
+            tabBarLabel: 'Overzicht',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={size} />
             ),
@@ -46,7 +46,7 @@ const Navbar = () => {
             ),
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Filters"
           component={Filters}
           options={{
@@ -55,7 +55,7 @@ const Navbar = () => {
               <MaterialCommunityIcons name="cog" color={color} size={size} />
             ),
           }}
-        />
+        /> */}
       </Tab.Navigator>
     );
   };

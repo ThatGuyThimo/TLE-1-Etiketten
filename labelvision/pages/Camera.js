@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext, useCallback} from "react";
 import {StyleSheet, Text, View, Button, Pressable} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Loading } from "./Loading";
 import { stateManager } from "../components/Statemanager";
@@ -12,6 +12,15 @@ function CameraView() {
   const  [text, setText] = useState('Not yet scanned');
   const { ApiData, setApiData } = useContext(stateManager);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  let key = 0
+
+  useFocusEffect(
+    useCallback(() => {
+      // Your code here. This will run every time the screen comes into focus.
+      key = Math.random(); // increment key to force re-render
+    }, [])
+  );
 
   const askForCameraPermission = () => {
     (async () => {
@@ -33,13 +42,20 @@ function CameraView() {
     // console.log(url + data);
     axios.get(`${url}${data}`, {'User-Agent': "LabelVision 0.0.1 thimodehaan@gmail.com"}).then((response) => {
       setApiData(response.data)
-      navigation.navigate('Details');
-      // console.log(response.data)
+      navigation.navigate('Overzicht');
     }).catch((error) => {
+      if(error.response?.status === 404) {
+        // server is down
+        console.log(error);
+        setApiData("product niet gevonden")
+        navigation.navigate('Overzicht');
+        // do something here to handle the server being down 
+      }
       if(error.response?.status === 502) {
         // server is down
         console.log(error);
-        setApiData("Server is down :(")
+        setApiData("Server is down")
+        navigation.navigate('Overzicht');
         // do something here to handle the server being down 
       }
     });
@@ -64,20 +80,21 @@ function CameraView() {
     )
   }
 
-  const url = "https://world.openfoodfacts.net/api/v2/product/"
+  const url = "https://world.openfoodfacts.org/api/v2/product/"
 
   // Return the View
   return (
     <Pressable style={styles.container}>
       <View style={styles.barcodebox}>
-        <BarCodeScanner
+        {isFocused && <BarCodeScanner
+            key={key}
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={{ height: 600, width: 600 }} />
+            style={{ height: 600, width: 600 }} />}
       </View>
       <Text style={styles.maintext}>{text}</Text>
 
       {scanned && <Pressable style={styles.button1} onPress={() => setScanned(false)} color='#ffffff'>
-        <Text style={styles.text}>Scan Again?</Text>
+        <Text style={styles.text}>Scan nog een keer</Text>
       </Pressable>
         }
     </Pressable>
@@ -108,7 +125,7 @@ const styles = StyleSheet.create({
   },
 
   button1: {
-    width: 131,
+    width: 231,
     height: 43,
     backgroundColor: '#0A3D4C',
     borderRadius: 20,
