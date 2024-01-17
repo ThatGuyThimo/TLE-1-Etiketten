@@ -42,12 +42,20 @@ function CameraView() {
     // console.log(url + data);
     axios.get(`${url}${data}`, {'User-Agent': "LabelVision 0.0.1 thimodehaan@gmail.com"}).then((response) => {
       setApiData(response.data)
-      navigation.navigate('Details');
+      navigation.navigate('Overzicht');
     }).catch((error) => {
+      if(error.response?.status === 404) {
+        // server is down
+        console.log(error);
+        setApiData("product niet gevonden")
+        navigation.navigate('Overzicht');
+        // do something here to handle the server being down 
+      }
       if(error.response?.status === 502) {
         // server is down
         console.log(error);
-        setApiData("Server is down :(")
+        setApiData("Server is down")
+        navigation.navigate('Overzicht');
         // do something here to handle the server being down 
       }
     });
@@ -86,7 +94,7 @@ function CameraView() {
       <Text style={styles.maintext}>{text}</Text>
 
       {scanned && <Pressable style={styles.button1} onPress={() => setScanned(false)} color='#ffffff'>
-        <Text style={styles.text}>Scan Again?</Text>
+        <Text style={styles.text}>Scan nog een keer</Text>
       </Pressable>
         }
     </Pressable>
@@ -117,7 +125,7 @@ const styles = StyleSheet.create({
   },
 
   button1: {
-    width: 131,
+    width: 231,
     height: 43,
     backgroundColor: '#0A3D4C',
     borderRadius: 20,

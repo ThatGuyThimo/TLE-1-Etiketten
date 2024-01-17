@@ -24,8 +24,18 @@ function Details() {
     // "https://imgproxy-retcat.assets.schwarz/EzycSqdC8yFC4DaScuJAzEXdO1ji3wa72scHGvAwZQo/sm:1/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvbmwvMS9EODJFNDc3RkZFQjhFQ0ZGRjg0OTk4RjN/EMDg2MDVFMENCODZFNDk1Njk3Q0RENkIxOEUzRDgwQkZDQkRENjJBLmpwZw.jpg";
   let ingredienten = "";
   let nutri_score = "a";
-  let product_name = "nog niet gescanned";
-  if (ApiData.product?.image_front_url != undefined) {
+  let product_name = "";
+  if (ApiData == "product niet gevonden") {
+    product_name = "product niet gevonden";
+    nutri_score = "niet bekend";
+    serving_size = "niet bekend";
+    ingredienten = "niet bekend";
+  } else if (ApiData == "Server is down") {
+    product_name = "Server is down";
+    nutri_score = "niet bekend";
+    serving_size = "niet bekend";
+    ingredienten = "niet bekend";
+  } else if (ApiData.product?.image_front_url != undefined) {
     image = ApiData.product.image_front_url;
     if(ApiData.product?.serving_size != undefined) {
       serving_size = ApiData.product.serving_size ;
@@ -97,7 +107,7 @@ function Details() {
             style={{ width: 50, height: 50 }}
             source={require("../assets/detail2.png")}
           ></Image>
-          {nutri_score == "niet bekend" ? <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>Nutri-Score: {nutri_score}</Text> : null}
+          {nutri_score == "niet bekend" ? <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>nutri score: {nutri_score}</Text> : null}
 
           <Image 
           style={{ width: 120, height: 60, marginBottom: 10 }}
