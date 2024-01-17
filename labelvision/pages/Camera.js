@@ -19,10 +19,6 @@ function CameraView() {
     useCallback(() => {
       // Your code here. This will run every time the screen comes into focus.
       key = Math.random(); // increment key to force re-render
-      // console.log(key + " ran")
-      // return () => {
-      //   // Optional cleanup function. This will run when the screen goes out of focus.
-      // };
     }, [])
   );
 
@@ -43,11 +39,10 @@ function CameraView() {
     setScanned(true);
     setText(data); 
     // console.log('Type: ' + type + '\nData: ' + data);
-    console.log(url + data);
+    // console.log(url + data);
     axios.get(`${url}${data}`, {'User-Agent': "LabelVision 0.0.1 thimodehaan@gmail.com"}).then((response) => {
       setApiData(response.data)
       navigation.navigate('Details');
-      // console.log(response.data)
     }).catch((error) => {
       if(error.response?.status === 502) {
         // server is down
@@ -77,7 +72,7 @@ function CameraView() {
     )
   }
 
-  const url = "https://world.openfoodfacts.net/api/v2/product/"
+  const url = "https://world.openfoodfacts.org/api/v2/product/"
 
   // Return the View
   return (

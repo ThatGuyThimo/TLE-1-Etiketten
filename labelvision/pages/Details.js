@@ -18,12 +18,13 @@ function Details() {
   nutri['c'] = require(`../assets/nutri/nutri-c.png`)
   nutri['d'] = require(`../assets/nutri/nutri-d.png`)
   nutri['e'] = require(`../assets/nutri/nutri-e.png`)
-  let serving_size = "1L";
+  let serving_size = "0";
   let image =
-    "https://imgproxy-retcat.assets.schwarz/EzycSqdC8yFC4DaScuJAzEXdO1ji3wa72scHGvAwZQo/sm:1/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvbmwvMS9EODJFNDc3RkZFQjhFQ0ZGRjg0OTk4RjN/EMDg2MDVFMENCODZFNDk1Njk3Q0RENkIxOEUzRDgwQkZDQkRENjJBLmpwZw.jpg";
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+    // "https://imgproxy-retcat.assets.schwarz/EzycSqdC8yFC4DaScuJAzEXdO1ji3wa72scHGvAwZQo/sm:1/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvbmwvMS9EODJFNDc3RkZFQjhFQ0ZGRjg0OTk4RjN/EMDg2MDVFMENCODZFNDk1Njk3Q0RENkIxOEUzRDgwQkZDQkRENjJBLmpwZw.jpg";
   let ingredienten = "";
   let nutri_score = "a";
-  let product_name = "niet bekend";
+  let product_name = "nog niet gescanned";
   if (ApiData.product?.image_front_url != undefined) {
     image = ApiData.product.image_front_url;
     if(ApiData.product?.serving_size != undefined) {
@@ -33,8 +34,8 @@ function Details() {
     } else {
       serving_size = "niet bekend";
     }
-    if(ApiData.product?.name != undefined) {
-      product_name = ApiData.product.serving_size ;
+    if(ApiData.product?.product_name != undefined) {
+      product_name = ApiData.product.product_name ;
     } else {
       product_name = "niet bekend";
     }
@@ -99,7 +100,7 @@ function Details() {
           {nutri_score == "niet bekend" ? <Text style={{ fontSize: 30, fontWeight: "700", marginLeft: 20 }}>Nutri-Score: {nutri_score}</Text> : null}
 
           <Image 
-          style={{ width: 120, height: 60 }}
+          style={{ width: 120, height: 60, marginBottom: 10 }}
           source={nutri[nutri_score]}>
             {/* Nutri-Score: {nutri_score} */}
           </Image>
