@@ -1,21 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { StrictMode } from 'react';
+import { Navbar } from "./components/Navbar"
+import { NavigationContainer} from '@react-navigation/native';
+import { Loading } from "./pages/Loading";
+import { Splashscreen } from './components/Splashscreen';
+import { stateManager } from './components/Statemanager';
+
+import { Text, View, Animated, StyleSheet, Image, Easing  } from 'react-native';
+
+const MainTheme = {
+  dark: false,
+  colors: {
+    primary: 'rgb(255, 45, 85)',
+    background: 'rgb(242, 242, 242)',
+    card: 'rgb(240, 107, 5)',
+    text: 'rgb(255, 255, 255)',
+    border: 'rgb(255, 255, 255)',
+    notification: 'rgb(255, 69, 58)',
+  },
+};
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>Ik ga even een lekker bakkie koffie zetten!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [ApiData, setApiData] = React.useState('Default State');
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  return (
+    <NavigationContainer theme={MainTheme}>
+      <stateManager.Provider value={{ ApiData, setApiData}}>
+        <Splashscreen/>
+        <Navbar/>
+      </stateManager.Provider>
+    </NavigationContainer>
+  );   
+}
